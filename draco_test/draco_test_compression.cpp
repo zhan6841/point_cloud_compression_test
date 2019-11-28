@@ -113,9 +113,9 @@ int main(int argc, char * * argv) {
 
 	printf("Compression level: %d\n", compression_level);
 	printf("KD-Tree Compression ratio: %.6f \
-        \noriginal bytes:%d \
-        \ncompressioned bytes:%d \
-        \nKD-tree Encoding time:%.6f\n", \
+        \noriginal bytes: %d \
+        \ncompressioned bytes: %d \
+        \nKD-tree Encoding time: %.6fs\n", \
         buffer.size()/(num * (12.0f + 4.0f)), num * (12 + 4), (int)buffer.size(), t2 - t1);
       
 	DecoderBuffer dec_buffer;
@@ -128,7 +128,7 @@ int main(int argc, char * * argv) {
 	MyAssert(decoder.Decode(dec_options, &dec_buffer, out_pc.get()).ok(), 2002);
 	double t4 = NDKGetTime();
 
-	printf("KD-Tree Decoding time: %.6f\n", t4 - t3);
+	printf("KD-Tree Decoding time: %.6fs\n", t4 - t3);
 
     FILE *fout = fopen("out.xyz", "w");
 

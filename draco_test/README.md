@@ -1,6 +1,12 @@
-test code for Draco library using kd-tree
+test code for Draco library using kd-tree, you should build Draco library first before complie this code.
 
 ```bash
+# build Draco
+cd ../draco
+mkdir build
+cd build
+cmake ../
+make
 # demo
 cmake .
 make

@@ -11,4 +11,4 @@ python compare.py
 **NOTE**: 
 
 * The compression of the point position and color can be lossless or lossy while the compression of the **intensity** field is always lossless.
-* To configuration of the compression can be find in **pcl_test_compression.cpp** (line 229-250 or 148-157 or 69-78).
+* The configuration of the compression can be find in **pcl_test_compression.cpp** (line 229-250 or 148-157 or 69-78).

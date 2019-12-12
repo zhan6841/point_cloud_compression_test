@@ -32,4 +32,4 @@ A compression profile consists of several fields as follows:
 
 * **doIntensityEncoding**: Enable intensity encoding if it is set as true. Otherwise, the point intensity attribute will be neglected.
 
-For deeper understanding of PCL compression framework, please refer to this paper: "[Real-time Compression of Point Cloud Streams](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6224647)".
+For further understanding of PCL compression framework, please refer to this paper: "[Real-time Compression of Point Cloud Streams](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6224647)".

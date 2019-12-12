@@ -62,7 +62,7 @@ int main(int argc, char * * argv) {
     PointCloudBuilder builder;
 	builder.Start(num);
 	const int pos_att_id = builder.AddAttribute(GeometryAttribute::POSITION, 3, DT_FLOAT32);
-	const int color_att_id = builder.AddAttribute(GeometryAttribute::COLOR, 1, DT_FLOAT32);
+	const int intensity_att_id = builder.AddAttribute(GeometryAttribute::GENERIC, 1, DT_FLOAT32);
     for (int index = 0; index < num; index++) {
 		std::array<float, 3> point;
 		point[0] = *px;
@@ -70,10 +70,10 @@ int main(int argc, char * * argv) {
 		point[2] = *pz;
 		builder.SetAttributeValueForPoint(pos_att_id, PointIndex(index), &(point)[0]);
 
-		std::array<float, 1> color;
-		color[0] = *pr;
-        // std::cout << color[0] << std::endl;
-		builder.SetAttributeValueForPoint(color_att_id, PointIndex(index), &(color)[0]);
+		std::array<float, 1> intensity;
+		intensity[0] = *pr;
+        // std::cout << intensity[0] << std::endl;
+		builder.SetAttributeValueForPoint(intensity_att_id, PointIndex(index), &(intensity)[0]);
 
         // printf("%f %f %f %.2f\n", *px, *py, *pz, *pr);
         // std::cout << *px << " " << *py << " " << *pz << " " << *pr << std::endl;
@@ -90,7 +90,7 @@ int main(int argc, char * * argv) {
     FILE *fin = fopen("in.xyz", "w");
 
     GeometryAttribute *pos = pc->attribute(pos_att_id);
-    GeometryAttribute *intensity = pc->attribute(color_att_id);
+    GeometryAttribute *intensity = pc->attribute(intensity_att_id);
     for (int index = 0; index < num; index++) {
         pos->GetValue(AttributeValueIndex(index), &position_array);
         intensity->GetValue(AttributeValueIndex(index), &intensity_array);
@@ -105,7 +105,7 @@ int main(int argc, char * * argv) {
 	PointCloudKdTreeEncoder encoder;
 	EncoderOptions options = EncoderOptions::CreateDefaultOptions();
 	options.SetGlobalInt("quantization_bits", qb);
-	options.SetSpeed(10- compression_level, 10 - compression_level);
+	options.SetSpeed(10 - compression_level, 10 - compression_level);
 	encoder.SetPointCloud(*pc);
 	double t1 = NDKGetTime();
 	MyAssert(encoder.Encode(options, &buffer).ok(), 2001);
@@ -133,7 +133,7 @@ int main(int argc, char * * argv) {
     FILE *fout = fopen("out.xyz", "w");
 
     pos = out_pc->attribute(pos_att_id);
-    intensity = out_pc->attribute(color_att_id);
+    intensity = out_pc->attribute(intensity_att_id);
     for (int index = 0; index < num; index++) {
         pos->GetValue(AttributeValueIndex(index), &position_array);
         intensity->GetValue(AttributeValueIndex(index), &intensity_array);

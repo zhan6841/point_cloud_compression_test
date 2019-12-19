@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-project(draco_test_compression)
+project(draco_evaluation)
 
 include_directories(../draco/src/draco)
 link_directories(../draco/build)

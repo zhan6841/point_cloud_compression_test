@@ -25,7 +25,8 @@ struct Statistics{
 
 struct Statistics pcl_statistics;
 
-int compressXYZI(const char* inputFile)
+int compressXYZI(const char* inputFile, pcl::io::OctreePointCloudCompression<pcl::PointXYZI>* PointCloudEncoder, 
+    pcl::io::OctreePointCloudCompression<pcl::PointXYZI>* PointCloudDecoder)
 {
     pcl::PointCloud<pcl::PointXYZI>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZI>);
 
@@ -59,7 +60,16 @@ int compressXYZI(const char* inputFile)
     fclose(stream);
 
     std::cout << "Loaded " << cloud->width * cloud->height << " data points from " << inputFile << std::endl;
-    
+
+    /*
+    FILE *fin = fopen("in.xyz", "w");
+    for (int i = 0; i < cloud->points.size (); i++) {
+        fprintf(fin, "%f %f %f\n", cloud->points[i].x, cloud->points[i].y, cloud->points[i].z);
+    }
+    fclose(fin);
+    */
+
+    /*
     bool showStatistics = true;
 
     // for a full list of profiles see: /io/include/pcl/compression/compression_profiles.h
@@ -86,6 +96,7 @@ int compressXYZI(const char* inputFile)
             colorBitResolution, doIntensityEncoding);
     // pcl::io::OctreePointCloudCompression<pcl::PointXYZI>* PointCloudEncoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> (compressionProfile, showStatistics);
     pcl::io::OctreePointCloudCompression<pcl::PointXYZI>* PointCloudDecoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> ();
+    */
 
     // stringstream to store compressed point cloud
     std::stringstream compressedData;
@@ -112,8 +123,16 @@ int compressXYZI(const char* inputFile)
     std::cout << "Decode " << cloudOut->width * cloudOut->height << " data points.\n" << std::endl;
 
     // delete point cloud compression instances
-    delete (PointCloudEncoder);
-    delete (PointCloudDecoder);
+    // delete (PointCloudEncoder);
+    // delete (PointCloudDecoder);
+
+    /*
+    FILE *fout = fopen("out.xyz", "w");
+    for (int i = 0; i < cloudOut->points.size (); i++) {
+        fprintf(fout, "%f %f %f\n", cloudOut->points[i].x, cloudOut->points[i].y, cloudOut->points[i].z);
+    }
+    fclose(fout);
+    */
 
     pcl_statistics.count += 1;
     
@@ -135,6 +154,33 @@ int main (int argc, char** argv)
     pcl_statistics.dt_avg = 0;
     pcl_statistics.dt_stddev = 0;
 
+    bool showStatistics = true;
+
+    // for a full list of profiles see: /io/include/pcl/compression/compression_profiles.h
+    // pcl::io::compression_Profiles_e compressionProfile = pcl::io::LOW_RES_ONLINE_COMPRESSION_WITHOUT_INTENSITY;
+    // pcl::io::compression_Profiles_e compressionProfile = pcl::io::MED_RES_ONLINE_COMPRESSION_WITH_INTENSITY;
+    pcl::io::compression_Profiles_e compressionProfile = pcl::io::HIGH_RES_ONLINE_COMPRESSION_WITH_INTENSITY;
+    // pcl::io::compression_Profiles_e compressionProfile = pcl::io::LOW_RES_OFFLINE_COMPRESSION_WITH_INTENSITY;
+    // pcl::io::compression_Profiles_e compressionProfile = pcl::io::MED_RES_OFFLINE_COMPRESSION_WITH_INTENSITY;
+    // pcl::io::compression_Profiles_e compressionProfile = pcl::io::HIGH_RES_OFFLINE_COMPRESSION_WITH_INTENSITY;
+
+    // instantiate point cloud compression for encoding and decoding
+    double pointResolution = 0.0001;
+    const double octreeResolution = 0.01;
+    bool doVoxelGridDownSampling = false;
+    unsigned int iFrameRate = 30;
+    const unsigned char colorBitResolution = 7;
+    bool doColorEncoding = false;
+    // double intensityResolution = 0.01;
+    bool doIntensityEncoding = true;
+    pcl::io::OctreePointCloudCompression<pcl::PointXYZI>* PointCloudEncoder = 
+        new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> (pcl::io::MANUAL_CONFIGURATION, showStatistics, 
+            pointResolution, octreeResolution, 
+            doVoxelGridDownSampling, iFrameRate, doColorEncoding, 
+            colorBitResolution, doIntensityEncoding);
+    // pcl::io::OctreePointCloudCompression<pcl::PointXYZI>* PointCloudEncoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> (compressionProfile, showStatistics);
+    pcl::io::OctreePointCloudCompression<pcl::PointXYZI>* PointCloudDecoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> ();
+
     // 2011_09_26_drive_0001_sync
     for(int frame_index = 0; frame_index < 108; frame_index++){
         char inputfile[256];
@@ -147,8 +193,18 @@ int main (int argc, char** argv)
         else{
             sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/data/0000000%d.bin", frame_index);
         }
-        compressXYZI(inputfile);
+        compressXYZI(inputfile, PointCloudEncoder, PointCloudDecoder);
     }
+
+    delete (PointCloudEncoder);
+    delete (PointCloudDecoder);
+
+    PointCloudEncoder = 
+        new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> (pcl::io::MANUAL_CONFIGURATION, showStatistics, 
+            pointResolution, octreeResolution, 
+            doVoxelGridDownSampling, iFrameRate, doColorEncoding, 
+            colorBitResolution, doIntensityEncoding);
+    PointCloudDecoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> ();
 
     // 2011_09_26_drive_0002_sync
     for(int frame_index = 0; frame_index < 77; frame_index++){
@@ -159,8 +215,18 @@ int main (int argc, char** argv)
         else{
             sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/data/00000000%d.bin", frame_index);
         }
-        compressXYZI(inputfile);
+        compressXYZI(inputfile, PointCloudEncoder, PointCloudDecoder);
     }
+
+    delete (PointCloudEncoder);
+    delete (PointCloudDecoder);
+
+    PointCloudEncoder = 
+        new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> (pcl::io::MANUAL_CONFIGURATION, showStatistics, 
+            pointResolution, octreeResolution, 
+            doVoxelGridDownSampling, iFrameRate, doColorEncoding, 
+            colorBitResolution, doIntensityEncoding);
+    PointCloudDecoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> ();
 
     // 2011_09_26_drive_0005_sync
     for(int frame_index = 0; frame_index < 154; frame_index++){
@@ -174,8 +240,18 @@ int main (int argc, char** argv)
         else{
             sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data/0000000%d.bin", frame_index);
         }
-        compressXYZI(inputfile);
+        compressXYZI(inputfile, PointCloudEncoder, PointCloudDecoder);
     }
+
+    delete (PointCloudEncoder);
+    delete (PointCloudDecoder);
+
+    PointCloudEncoder = 
+        new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> (pcl::io::MANUAL_CONFIGURATION, showStatistics, 
+            pointResolution, octreeResolution, 
+            doVoxelGridDownSampling, iFrameRate, doColorEncoding, 
+            colorBitResolution, doIntensityEncoding);
+    PointCloudDecoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> ();
 
     // 2011_09_26_drive_0009_sync
     for(int frame_index = 0; frame_index < 447; frame_index++){
@@ -192,8 +268,18 @@ int main (int argc, char** argv)
         else{
             sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/data/0000000%d.bin", frame_index);
         }
-        compressXYZI(inputfile);
+        compressXYZI(inputfile, PointCloudEncoder, PointCloudDecoder);
     }
+
+    delete (PointCloudEncoder);
+    delete (PointCloudDecoder);
+
+    PointCloudEncoder = 
+        new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> (pcl::io::MANUAL_CONFIGURATION, showStatistics, 
+            pointResolution, octreeResolution, 
+            doVoxelGridDownSampling, iFrameRate, doColorEncoding, 
+            colorBitResolution, doIntensityEncoding);
+    PointCloudDecoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZI> ();
 
     // 2011_09_26_drive_0011_sync
     for(int frame_index = 0; frame_index < 233; frame_index++){
@@ -207,8 +293,11 @@ int main (int argc, char** argv)
         else{
             sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/0000000%d.bin", frame_index);
         }
-        compressXYZI(inputfile);
+        compressXYZI(inputfile, PointCloudEncoder, PointCloudDecoder);
     }
+
+    delete (PointCloudEncoder);
+    delete (PointCloudDecoder);
 
     // calculate average
     pcl_statistics.cr_avg /= pcl_statistics.count;

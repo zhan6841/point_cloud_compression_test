@@ -154,42 +154,21 @@ int main(int argc, char** argv) {
     // 2011_09_26_drive_0001_sync
     for(int frame_index = 0; frame_index < 108; frame_index++){
         char inputfile[256];
-        if(frame_index < 10){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/data/000000000%d.bin", frame_index);
-        }
-        else if(frame_index >= 10 && frame_index < 100){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/data/00000000%d.bin", frame_index);
-        }
-        else{
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/data/0000000%d.bin", frame_index);
-        }
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/data/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb);
     }
 
     // 2011_09_26_drive_0002_sync
     for(int frame_index = 0; frame_index < 77; frame_index++){
         char inputfile[256];
-        if(frame_index < 10){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/data/000000000%d.bin", frame_index);
-        }
-        else{
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/data/00000000%d.bin", frame_index);
-        }
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/data/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb);
     }
 
     // 2011_09_26_drive_0005_sync
     for(int frame_index = 0; frame_index < 154; frame_index++){
         char inputfile[256];
-        if(frame_index < 10){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data/000000000%d.bin", frame_index);
-        }
-        else if(frame_index >= 10 && frame_index < 100){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data/00000000%d.bin", frame_index);
-        }
-        else{
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data/0000000%d.bin", frame_index);
-        }
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb);
     }
 
@@ -199,30 +178,14 @@ int main(int argc, char** argv) {
         if(frame_index >= 177 && frame_index <= 180){
             continue;
         }
-        if(frame_index < 10){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/data/000000000%d.bin", frame_index);
-        }
-        else if(frame_index >= 10 && frame_index < 100){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/data/00000000%d.bin", frame_index);
-        }
-        else{
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/data/0000000%d.bin", frame_index);
-        }
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/data/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb);
     }
 
     // 2011_09_26_drive_0011_sync
     for(int frame_index = 0; frame_index < 233; frame_index++){
         char inputfile[256];
-        if(frame_index < 10){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/000000000%d.bin", frame_index);
-        }
-        else if(frame_index >= 10 && frame_index < 100){
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/00000000%d.bin", frame_index);
-        }
-        else{
-            sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/0000000%d.bin", frame_index);
-        }
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb);
     }
 

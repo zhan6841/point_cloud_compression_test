@@ -49,7 +49,7 @@ double NDKGetTime() {
     return t;
 }
 
-void compression_demo(char* inputfile, int cl, int qb){
+void compression_demo(char* inputfile, int cl, int qb, char* outputfile){
     // allocate 4 MB buffer (only ~130*4*4 KB are needed)
     int32_t num = 1000000;
     float *data = (float*)malloc(num*sizeof(float));
@@ -132,6 +132,37 @@ void compression_demo(char* inputfile, int cl, int qb){
     printf("KD-Tree Decoding time: %.6fs\n\n", t4 - t3);
 
     draco_statistics.count += 1;
+
+    // save back to binary
+    float *data_out = (float*)malloc(num*4*sizeof(float));
+
+    px = data_out+0;
+    py = data_out+1;
+    pz = data_out+2;
+    pr = data_out+3;
+
+    std::array<float, 3> position_array;
+    std::array<float, 1> intensity_array;
+
+    GeometryAttribute *pos = out_pc->attribute(pos_att_id);
+    GeometryAttribute *intensity = out_pc->attribute(intensity_att_id);
+    for (int index = 0; index < num; index++) {
+        pos->GetValue(AttributeValueIndex(index), &position_array);
+        intensity->GetValue(AttributeValueIndex(index), &intensity_array);
+
+        *px = position_array[0];
+        *py = position_array[1];
+        *pz = position_array[2];
+        *pr = intensity_array[0];
+
+        px+=4; py+=4; pz+=4; pr+=4;
+    }
+
+    FILE *stream_out;
+    char save_path[256];
+    stream_out = fopen(outputfile, "wb");
+    fwrite(data_out, sizeof(float), num*4, stream_out);
+    fclose(stream_out);
 }
 
 int main(int argc, char** argv) {
@@ -155,21 +186,27 @@ int main(int argc, char** argv) {
     for(int frame_index = 0; frame_index < 108; frame_index++){
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/data/%010d.bin", frame_index);
-        compression_demo(inputfile, cl, qb);
+        char outputfile[256];
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        compression_demo(inputfile, cl, qb, outputfile);
     }
 
     // 2011_09_26_drive_0002_sync
     for(int frame_index = 0; frame_index < 77; frame_index++){
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/data/%010d.bin", frame_index);
-        compression_demo(inputfile, cl, qb);
+        char outputfile[256];
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        compression_demo(inputfile, cl, qb, outputfile);
     }
 
     // 2011_09_26_drive_0005_sync
     for(int frame_index = 0; frame_index < 154; frame_index++){
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data/%010d.bin", frame_index);
-        compression_demo(inputfile, cl, qb);
+        char outputfile[256];
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        compression_demo(inputfile, cl, qb, outputfile);
     }
 
     // 2011_09_26_drive_0009_sync
@@ -179,14 +216,18 @@ int main(int argc, char** argv) {
             continue;
         }
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/data/%010d.bin", frame_index);
-        compression_demo(inputfile, cl, qb);
+        char outputfile[256];
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        compression_demo(inputfile, cl, qb, outputfile);
     }
 
     // 2011_09_26_drive_0011_sync
     for(int frame_index = 0; frame_index < 233; frame_index++){
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/%010d.bin", frame_index);
-        compression_demo(inputfile, cl, qb);
+        char outputfile[256];
+        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        compression_demo(inputfile, cl, qb, outputfile);
     }
 
     // calculate average

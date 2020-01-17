@@ -160,7 +160,9 @@ int main(int argc, char * * argv) {
     fclose(fout);
 
     /* FILE *stream_out;
-    stream_out = fopen("a.bin", "wb");
+    char save_path[256];
+	sprintf(save_path, "../compressed_data/draco/0000000000.bin");
+    stream_out = fopen(save_path, "wb");
     fwrite(data_out, sizeof(float), num*4, stream_out);
     fclose(stream_out); */
 

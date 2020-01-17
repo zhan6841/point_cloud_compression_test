@@ -71,11 +71,11 @@ int compressXYZI(const char* inputFile)
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::HIGH_RES_OFFLINE_COMPRESSION_WITH_INTENSITY;
 
     // instantiate point cloud compression for encoding and decoding
-    double pointResolution = 0.001;
+    double pointResolution = 0.01;
     const double octreeResolution = 0.01;
-    bool doVoxelGridDownSampling = false;
-    unsigned int iFrameRate = 30;
-    const unsigned char colorBitResolution = 7;
+    bool doVoxelGridDownSampling = true;
+    unsigned int iFrameRate = 50;
+    const unsigned char colorBitResolution = 4;
     bool doColorEncoding = false;
     // double intensityResolution = 0.01;
     bool doIntensityEncoding = true;

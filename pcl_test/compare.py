@@ -20,7 +20,7 @@ def compare(input, output):
 		# if(diff[-1] == 0.0):
 			# print(str(input[i]) + ' ' + str(output[i]))
 	print("equal:", diff.count(0.0))
-	print("[-0.0001, 0.0001]:", count)
+	print("[-0.001, 0.001]:", count)
 	# print(diff)
 
 

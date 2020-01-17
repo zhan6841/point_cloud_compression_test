@@ -132,15 +132,35 @@ int main(int argc, char * * argv) {
 
     FILE *fout = fopen("out.xyz", "w");
 
+    float *data_out = (float*)malloc(num*4*sizeof(float));
+
+    // pointers
+    px = data_out+0;
+    py = data_out+1;
+    pz = data_out+2;
+    pr = data_out+3;
+
     pos = out_pc->attribute(pos_att_id);
     intensity = out_pc->attribute(intensity_att_id);
     for (int index = 0; index < num; index++) {
         pos->GetValue(AttributeValueIndex(index), &position_array);
         intensity->GetValue(AttributeValueIndex(index), &intensity_array);
         fprintf(fout, "%f %f %f %.2f\n", position_array[0], position_array[1], position_array[2], intensity_array[0]);
+
+        *px = position_array[0];
+        *py = position_array[1];
+        *pz = position_array[2];
+        *pr = intensity_array[0];
+
+        px+=4; py+=4; pz+=4; pr+=4;
     }
 
     fclose(fout);
+
+    FILE *stream_out;
+    stream_out = fopen("a.bin", "wb");
+    fwrite(data_out, sizeof(float), num*4, stream_out);
+    fclose(stream_out);
 
 	return 0;
 }

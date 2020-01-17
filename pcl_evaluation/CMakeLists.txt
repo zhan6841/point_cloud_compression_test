@@ -10,3 +10,6 @@ add_definitions(${PCL_DEFINITIONS})
 
 add_executable (pcl_evaluation pcl_evaluation.cpp)
 target_link_libraries (pcl_evaluation ${PCL_LIBRARIES})
+
+add_executable (pcl_evaluation_interframe pcl_evaluation_interframe.cpp)
+target_link_libraries (pcl_evaluation_interframe ${PCL_LIBRARIES})

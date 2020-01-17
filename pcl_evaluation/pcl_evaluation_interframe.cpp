@@ -165,9 +165,9 @@ int main (int argc, char** argv)
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::HIGH_RES_OFFLINE_COMPRESSION_WITH_INTENSITY;
 
     // instantiate point cloud compression for encoding and decoding
-    double pointResolution = 0.0001;
-    const double octreeResolution = 0.01;
-    bool doVoxelGridDownSampling = false;
+    double pointResolution = 0.001;
+    const double octreeResolution = 0.001;
+    bool doVoxelGridDownSampling = true;
     unsigned int iFrameRate = 30;
     const unsigned char colorBitResolution = 7;
     bool doColorEncoding = false;

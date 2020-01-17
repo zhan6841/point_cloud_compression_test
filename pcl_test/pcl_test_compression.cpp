@@ -68,14 +68,26 @@ int compressXYZ(const char* inputFile)
 
     // for a full list of profiles see: /io/include/pcl/compression/compression_profiles.h
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::LOW_RES_ONLINE_COMPRESSION_WITHOUT_COLOR;
-    pcl::io::compression_Profiles_e compressionProfile = pcl::io::MED_RES_ONLINE_COMPRESSION_WITHOUT_COLOR;
+    // pcl::io::compression_Profiles_e compressionProfile = pcl::io::MED_RES_ONLINE_COMPRESSION_WITHOUT_COLOR;
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::HIGH_RES_ONLINE_COMPRESSION_WITHOUT_COLOR;
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::LOW_RES_OFFLINE_COMPRESSION_WITHOUT_COLOR;
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::MED_RES_OFFLINE_COMPRESSION_WITHOUT_COLOR;
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::HIGH_RES_OFFLINE_COMPRESSION_WITHOUT_COLOR;
 
     // instantiate point cloud compression for encoding and decoding
-    pcl::io::OctreePointCloudCompression<pcl::PointXYZ>* PointCloudEncoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZ> (compressionProfile, showStatistics);
+    double pointResolution = 0.0001;
+    const double octreeResolution = 0.01;
+    bool doVoxelGridDownSampling = false;
+    unsigned int iFrameRate = 20;
+    const unsigned char colorBitResolution = 7;
+    bool doColorEncoding = false;
+    bool doIntensityEncoding = false;
+    pcl::io::OctreePointCloudCompression<pcl::PointXYZ>* PointCloudEncoder = 
+        new pcl::io::OctreePointCloudCompression<pcl::PointXYZ> (pcl::io::MANUAL_CONFIGURATION, showStatistics, 
+            pointResolution, octreeResolution, doVoxelGridDownSampling, iFrameRate, doColorEncoding, colorBitResolution, doIntensityEncoding);
+
+    // instantiate point cloud compression for encoding and decoding
+    // pcl::io::OctreePointCloudCompression<pcl::PointXYZ>* PointCloudEncoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZ> (compressionProfile, showStatistics);
     pcl::io::OctreePointCloudCompression<pcl::PointXYZ>* PointCloudDecoder = new pcl::io::OctreePointCloudCompression<pcl::PointXYZ> ();
 
     // stringstream to store compressed point cloud
@@ -235,7 +247,7 @@ int compressXYZI(const char* inputFile)
     // pcl::io::compression_Profiles_e compressionProfile = pcl::io::HIGH_RES_OFFLINE_COMPRESSION_WITH_INTENSITY;
 
     // instantiate point cloud compression for encoding and decoding
-    double pointResolution = 0.0001;
+    double pointResolution = 0.01;
     const double octreeResolution = 0.01;
     bool doVoxelGridDownSampling = false;
     unsigned int iFrameRate = 30;

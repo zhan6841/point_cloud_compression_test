@@ -187,7 +187,7 @@ int main(int argc, char** argv) {
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/data/%010d.bin", frame_index);
         char outputfile[256];
-        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        sprintf(outputfile, "../data/2011_09_26/2011_09_26_drive_0001_sync/velodyne_points/processed/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb, outputfile);
     }
 
@@ -196,7 +196,7 @@ int main(int argc, char** argv) {
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/data/%010d.bin", frame_index);
         char outputfile[256];
-        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        sprintf(outputfile, "../data/2011_09_26/2011_09_26_drive_0002_sync/velodyne_points/processed/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb, outputfile);
     }
 
@@ -205,7 +205,7 @@ int main(int argc, char** argv) {
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data/%010d.bin", frame_index);
         char outputfile[256];
-        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        sprintf(outputfile, "../data/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/processed/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb, outputfile);
     }
 
@@ -217,7 +217,7 @@ int main(int argc, char** argv) {
         }
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/data/%010d.bin", frame_index);
         char outputfile[256];
-        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        sprintf(outputfile, "../data/2011_09_26/2011_09_26_drive_0009_sync/velodyne_points/processed/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb, outputfile);
     }
 
@@ -226,7 +226,7 @@ int main(int argc, char** argv) {
         char inputfile[256];
         sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/data/%010d.bin", frame_index);
         char outputfile[256];
-        sprintf(inputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/compressed_data/%010d.bin", frame_index);
+        sprintf(outputfile, "../data/2011_09_26/2011_09_26_drive_0011_sync/velodyne_points/processed/%010d.bin", frame_index);
         compression_demo(inputfile, cl, qb, outputfile);
     }
 
